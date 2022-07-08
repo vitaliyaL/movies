@@ -1,0 +1,16 @@
+.container{
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.852);
+}
+.buttons{
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 25px;
+}
+.cards{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
