@@ -1,0 +1,11 @@
+.info{
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: rgb(61, 15, 15);
+color: white;
+font-size: 30px;
+}
+.info img{
+    width: 300px;
+}
