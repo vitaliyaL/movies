@@ -1,13 +1,15 @@
 import { actionTypes } from "./actions";
 
 const initialState = {
+  trailers:{},
   movies: [],
   success: false,
   loading: false,
   error: false,
 };
 export const reducerMovies = (state = initialState, action) => {
-  switch (action.type) {
+  const {type, payload}=action
+  switch (type) {
     case actionTypes.SET_MOVIES:
       return {
         ...state,
@@ -19,12 +21,35 @@ export const reducerMovies = (state = initialState, action) => {
     case actionTypes.SET_MOVIES_SUCCESS:
       return {
         ...state,
-        movies: action.payload,
+        movies: payload,
         success: true,
         loading: false,
         error: false,
       };
     case actionTypes.SET_MOVIES_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+      case actionTypes.SET_INFO_MOVIES:
+      return {
+        ...state,
+        info:[],
+        trailers: {},
+        success: false,
+        loading: true,
+        error: false,
+      };
+    case actionTypes.SET_INFO_MOVIES_SUCCESS:
+      return {
+        ...state,
+        info:payload,
+        trailers: payload.videos.results[0],
+        success: true,
+        loading: false,
+        error: false,
+      };
+    case actionTypes.SET_INFO_MOVIES_ERROR:
       return {
         ...state,
         error: true,
