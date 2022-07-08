@@ -5,7 +5,7 @@ import "./Page.css";
 import Card from "../../components/Card/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getMovie } from "../../redux/actions";
+import { actionMovies } from "../../redux/actions";
 import usePagination from "@mui/material/usePagination";
 import { styled } from "@mui/material/styles";
 
@@ -26,12 +26,16 @@ function Page() {
     count: 500,
   });
   useEffect(() => {
-    dispatch(getMovie(page));
+    dispatch(actionMovies.getMovie(page));
   }, [page]);
   const arr = new Array(30).fill(0);
   const handlePage = (e) => {
     statePage(e.target.textContent);
   };
+  
+  if(loading){
+   return <h1>Loading...</h1>
+  }
   return (
     <div className="container">
       <Header movies={movies}/>
