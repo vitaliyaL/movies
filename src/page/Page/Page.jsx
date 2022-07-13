@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { actionMovies } from "../../redux/actions";
 import usePagination from "@mui/material/usePagination";
 import { styled } from "@mui/material/styles";
+import Input from "../../components/Input/Input";
 
 const List = styled("ul")({
   listStyle: "none",
@@ -43,7 +44,9 @@ function Page() {
         {arr.map((_, index) => (
           <Buttons name={index + 1} onclick={handlePage} />
         ))}
+        <Input/>
       </div>
+      
       <div className="cards">
         {movies.map(({ id, title, poster_path, overview }) => (
           <Card name={title} desc={overview} id={id} img={poster_path} />

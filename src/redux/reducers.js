@@ -1,14 +1,14 @@
 import { actionTypes } from "./actions";
 
 const initialState = {
-  trailers:{},
+  trailers: {},
   movies: [],
   success: false,
   loading: false,
   error: false,
 };
 export const reducerMovies = (state = initialState, action) => {
-  const {type, payload}=action
+  const { type, payload } = action;
   switch (type) {
     case actionTypes.SET_MOVIES:
       return {
@@ -31,10 +31,10 @@ export const reducerMovies = (state = initialState, action) => {
         ...state,
         error: true,
       };
-      case actionTypes.SET_INFO_MOVIES:
+    case actionTypes.SET_INFO_MOVIES:
       return {
         ...state,
-        info:[],
+        info: [],
         trailers: {},
         success: false,
         loading: true,
@@ -43,7 +43,7 @@ export const reducerMovies = (state = initialState, action) => {
     case actionTypes.SET_INFO_MOVIES_SUCCESS:
       return {
         ...state,
-        info:payload,
+        info: payload,
         trailers: payload.videos.results[0],
         success: true,
         loading: false,
@@ -53,6 +53,27 @@ export const reducerMovies = (state = initialState, action) => {
       return {
         ...state,
         error: true,
+      };
+    case actionTypes.SET_SEARCH_MOVIES_SUCCESS:
+      return {
+        ...state,
+        movies: payload,
+        success: true,
+        loading: false,
+        error: false,
+      };
+    case actionTypes.SET_SEARCH_MOVIES_ERROR:
+      return {
+        ...state,
+        error: true,
+      };
+    case actionTypes.SET_SEARCH_MOVIES:
+      return {
+        ...state,
+        movies: [],
+        success: false,
+        loading: true,
+        error: false,
       };
     default:
       return state;

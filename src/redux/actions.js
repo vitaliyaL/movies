@@ -8,6 +8,10 @@ export const actionTypes = {
   SET_INFO_MOVIES: "SET_INFO_MOVIES",
   SET_INFO_MOVIES_SUCCESS: "SET_INFO_MOVIES_SUCCESS",
   SET_INFO_MOVIES_ERROR: "SET_INFO_MOVIES_ERROR",
+
+  SET_SEARCH_MOVIES: "SET_SEARCH_MOVIES",
+  SET_SEARCH_MOVIES_SUCCESS: "SET_SEARCH_MOVIES_SUCCESS",
+  SET_SEARCH_MOVIES_ERROR: "SET_SEARCH_MOVIES_ERROR",
 };
 export const actionMovies={
   getMovie : (page) => {
@@ -47,6 +51,27 @@ export const actionMovies={
           console.log(err.response, err)
           dispatch({
             type: actionTypes.SET_INFO_MOVIES_ERROR,
+            payload: err.response,
+            });
+        });
+    };
+  },
+  getSearchMovie : (search) => {
+    return async (dispatch) => {
+      dispatch({ type: actionTypes.SET_SEARCH_MOVIES });
+      axios
+        .get(
+          `https://api.themoviedb.org/3/search/movie?api_key=b4a6374152da849fa2106a2c105a568b&query=${search}`
+        )
+        .then((res) => {
+          dispatch({
+            type: actionTypes.SET_SEARCH_MOVIES_SUCCESS,
+            payload: res.data.results,
+          });
+        }).catch((err)=>{
+          console.log(err.response, err)
+          dispatch({
+            type: actionTypes.SET_SEARCH_MOVIES_ERROR,
             payload: err.response,
             });
         });
