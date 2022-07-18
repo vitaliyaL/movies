@@ -2,7 +2,8 @@
   border: 1px solid rgb(242, 230, 192);
   background-color: rgb(70, 11, 11);
   width: 20%;
-  height: 500px;
+  height: 520px;
+  padding: 10px;
   margin-bottom: 25px;
   text-align: center;
   /* overflow: auto; */
@@ -22,4 +23,8 @@
   font-size: 12px;
   height: 100px;
   overflow: auto;
+}
+.fav{
+  margin-top: 15px;
+  
 }

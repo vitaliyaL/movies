@@ -9,6 +9,10 @@ import { actionMovies } from "../../redux/actions";
 import usePagination from "@mui/material/usePagination";
 import { styled } from "@mui/material/styles";
 import Input from "../../components/Input/Input";
+import TrueHeader from "../../components/TrueHeader/TrueHeader";
+import { addMovies } from "../../redux/favorite/action";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const List = styled("ul")({
   listStyle: "none",
@@ -33,24 +37,55 @@ function Page() {
   const handlePage = (e) => {
     statePage(e.target.textContent);
   };
-  
-  if(loading){
-   return <h1>Loading...</h1>
+  const handleFavorite = (id) => (e) => {
+    console.log(id);
+    dispatch(addMovies(movies.find((i) => i.id === id)));
+    toast.success("Добавлено!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    e.target.classList.toggle("active")
+  };
+  if (loading) {
+    return <h1>Loading...</h1>;
   }
   return (
-    <div className="container">
-      <Header movies={movies}/>
-      <div className="buttons">
+    <div className='container'>
+      <TrueHeader />
+      <Header movies={movies} />
+      <div className='buttons'>
         {arr.map((_, index) => (
           <Buttons name={index + 1} onclick={handlePage} />
         ))}
-        <Input/>
+        <Input />
       </div>
-      
-      <div className="cards">
+
+      <div className='cards'>
         {movies.map(({ id, title, poster_path, overview }) => (
-          <Card name={title} desc={overview} id={id} img={poster_path} />
+          <Card
+            name={title}
+            desc={overview}
+            id={id}
+            img={poster_path}
+            onclick={handleFavorite(id)}
+          />
         ))}
+        <ToastContainer
+          position='top-center'
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
       <List onClick={handlePage}>
         {items.map(({ page, type, selected, ...item }, index) => {
@@ -61,7 +96,7 @@ function Page() {
           } else if (type === "page") {
             children = (
               <button
-                type="button"
+                type='button'
                 style={{
                   fontWeight: selected ? "bold" : undefined,
                 }}

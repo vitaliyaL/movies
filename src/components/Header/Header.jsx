@@ -10,7 +10,7 @@ function Header({movies}) {
         <Fade>
         {movies.map(({id,backdrop_path}) => (
           <div className="each-fade" key={id}>
-              <img width="1080px" src={`https://image.tmdb.org/t/p/w500${backdrop_path}`} />
+              <img width="1140px" src={`https://image.tmdb.org/t/p/w500${backdrop_path}`} />
           
           </div>
         ))}
