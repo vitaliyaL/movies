@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Buttons from "../../components/Buttons/Buttons";
 import Header from "../../components/Header/Header";
 import "./Page.css";
@@ -10,9 +10,11 @@ import usePagination from "@mui/material/usePagination";
 import { styled } from "@mui/material/styles";
 import Input from "../../components/Input/Input";
 import TrueHeader from "../../components/TrueHeader/TrueHeader";
-import { addMovies } from "../../redux/favorite/action";
+import { addMovies, deleteMovies } from "../../redux/favorite/action";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { genres } from "../../constants/genres";
+import { actionGenres } from "../../redux/genres/action";
 
 const List = styled("ul")({
   listStyle: "none",
@@ -24,9 +26,8 @@ const List = styled("ul")({
 function Page() {
   const [page, statePage] = useState(1);
   const dispatch = useDispatch();
-  const { movies, loading, success, error } = useSelector(
-    (state) => state.movies
-  );
+  const { movies, loading } = useSelector((state) => state.movies);
+  const { favoriteMovies } = useSelector((state) => state.favoriteMovies);
   const { items } = usePagination({
     count: 500,
   });
@@ -38,8 +39,11 @@ function Page() {
     statePage(e.target.textContent);
   };
   const handleFavorite = (id) => (e) => {
-    console.log(id);
-    dispatch(addMovies(movies.find((i) => i.id === id)));
+    e.target.classList.toggle("active");
+    e.target.classList.contains("active")
+      ? dispatch(addMovies(movies.find((i) => i.id === id)))
+      : dispatch(deleteMovies(id));
+
     toast.success("Добавлено!", {
       position: "top-center",
       autoClose: 5000,
@@ -49,7 +53,9 @@ function Page() {
       draggable: true,
       progress: undefined,
     });
-    e.target.classList.toggle("active")
+  };
+  const handleGenres = (id) => () => {
+    dispatch(actionGenres.getGenres(id));
   };
   if (loading) {
     return <h1>Loading...</h1>;
@@ -63,18 +69,35 @@ function Page() {
           <Buttons name={index + 1} onclick={handlePage} />
         ))}
         <Input />
+        <div>
+          {genres.map((i) => {
+            return (
+              <Fragment key={i.id}>
+                <button onClick={handleGenres(i.id)}>{i.name}</button>
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
 
       <div className='cards'>
-        {movies.map(({ id, title, poster_path, overview }) => (
-          <Card
-            name={title}
-            desc={overview}
-            id={id}
-            img={poster_path}
-            onclick={handleFavorite(id)}
-          />
-        ))}
+        {movies.map(({ id, title, poster_path, overview }) => {
+          let active = false;
+          if (favoriteMovies.filter((i) => i.id === id).length) {
+            active = true;
+          }
+          return (
+            <Card
+              name={title}
+              desc={overview}
+              id={id}
+              img={poster_path}
+              onclick={handleFavorite(id)}
+              text={"favorite"}
+              isActive={active}
+            />
+          );
+        })}
         <ToastContainer
           position='top-center'
           autoClose={5000}
