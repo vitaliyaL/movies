@@ -15,11 +15,18 @@ export const favoriteReducer = (state = initialState, action) => {
             array_id.push(i.id)
             return i
           }
-          else{
-            [...(state.favoriteMovies),payload].pop(i)
-          }
         }),
       };
+      case actionTypes.DELETE_MOVIES:
+        return {
+          ...state,
+          favoriteMovies: state.favoriteMovies.filter(i=>i.id!=payload)
+        }
+        case actionTypes.DELETE_ALL:
+          return {
+            ...state,
+            favoriteMovies: []
+          }
       default:
         return state;
   }
